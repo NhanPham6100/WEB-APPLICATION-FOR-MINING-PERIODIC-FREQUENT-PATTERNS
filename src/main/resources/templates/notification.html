@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <script src="https://kit.fontawesome.com/f65efb3cd0.js" crossorigin="anonymous"></script>
+    <title>Notification</title>
+    <style>
+        body {
+            font-family: Calibri;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            height: 60px;
+            font-weight: 800;
+            font-size: 20px;
+            padding: 55px;
+            color: black;
+            background-color: rgb(218, 227, 236);
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        p {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px;
+        }
+        a {
+            margin-top: 50px;
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            background-color: rgb(218, 227, 236);
+            color: black;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+        a:hover {
+            background-color: rgb(133, 133, 233);
+        }
+        /* Optional: Add some space around the main content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <i class="fa-solid fa-hat-wizard"></i> Periodic Frequent Pattern Miner Algorithm
+        </h1>
+        <i class="fa-solid fa-hand-point-right"></i> Please enter the required threshold values.
+    </header>
+    <div class="container">
+        <h1>Notify<i class="fa-solid fa-exclamation"></i></h1>
+        <p>You haven't completed the required threshold values.</p>
+        <a th:href="@{/}">Go back <i class="fa-solid fa-hand-point-left"></i></a>
+    </div>
+</body>
+</html>

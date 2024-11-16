@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The final output</title>
+    <script src="https://kit.fontawesome.com/f65efb3cd0.js" crossorigin="anonymous"></script>
+    <style>
+        pre {
+            white-space: pre-wrap; /* Maintain whitespace formatting */
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Calibri;
+            box-sizing: border-box;
+        }
+        header {
+            height: 100%;
+            font-weight: 800;
+            font-size: 20px;
+            padding: 55px 55px 20px 55px;
+            color: black;
+            background-color: rgb(218, 227, 236);
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        h6 {
+            font-weight: 800;
+            font-size: 20px;
+        }
+         #btn-logout {
+            float: right;
+            padding: 5px 5px 5px 5px;
+            font-weight: 600;
+            border: 1px solid tomato;
+            border-radius: 3px;
+            color: white;
+            background-color: tomato;
+            text-decoration: none;
+            font-family: Arial;
+        }
+        .content {
+            padding: 0 0 0 55px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" id="btn-logout"><i class="fa-solid fa-house"></i> home</a>
+        <h1><i class="fa-solid fa-hat-wizard"></i> Periodic Frequent Pattern Miner Algorithm</h1>
+        <i class="fa-solid fa-file-lines"></i> The final output
+    </header>
+    <div class="content">
+        <h6>Statistics for the Periodic Frequent Pattern Miner Algorithm</h6>
+        <pre th:text="${statistics}">No content available</pre>
+        <h6>Here are the periodic frequent patterns:</h6>
+        <pre th:text="${fileContent}">No content available</pre>
+    </div>
+</body>
+</html>

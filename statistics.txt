@@ -1,0 +1,15 @@
+=============  PFPM ALGORITHM v2.17 ESCP: true =====
+ Database size: 181970 transactions
+ Time : 615.0 ms
+ Memory ~ 29.329566955566406 MB
+ Periodic Itemsets count : 64
+ Candidate count : 762
+ Gamma (support prunning threshold): 89.985
+----------------------------------------------------
+  with: 
+   Min Periodicity Threshold : 1
+   Max Periodicity Threshold : 1000
+   Min Average Periodicity Threshold : 5
+   Max Average Periodicity Threshold : 2000
+   Path Containing Your Dataset: C:\Users\Dell\IdeaProjects\SpringBootProjects\da2\uploads\fruithut.txt
+----------------------------------------------------
