@@ -1,7 +1,7 @@
 =============  PFPM ALGORITHM v2.17 ESCP: true =====
  Database size: 181970 transactions
- Time : 615.0 ms
- Memory ~ 29.329566955566406 MB
+ Time : 347.0 ms
+ Memory ~ 53.48997497558594 MB
  Periodic Itemsets count : 64
  Candidate count : 762
  Gamma (support prunning threshold): 89.985

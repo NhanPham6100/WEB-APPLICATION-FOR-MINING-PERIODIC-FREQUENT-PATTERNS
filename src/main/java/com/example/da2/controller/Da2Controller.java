@@ -2,9 +2,14 @@ package com.example.da2.controller;
 
 import com.example.da2.Da2Application;
 import com.example.da2.algorithms.frequentpatterns.pfpm.AlgoPFPM;
+import com.example.da2.entity.Dataset;
+import com.example.da2.repository.DatasetRepository;
+import com.example.da2.service.DatasetService;
 import com.example.da2.tools.ResultConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +28,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Controller
 public class Da2Controller {
+    public static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     // Directory to save upload files
     private static String UPLOAD_DIR = "uploads/";
+
+    @Autowired
+    private DatasetRepository datasetRepository;
+    @Autowired
+    private DatasetService datasetService;
 
     @GetMapping("/")
     public String welcome(HttpSession session) {
@@ -38,13 +50,18 @@ public class Da2Controller {
 
     @GetMapping("/showFileDirectory")
     public String showFileDirectory(HttpSession session, Model model) {
-
         if (session.getAttribute("filePath") != null){
             // Get the data from session
             String filePath = (String) session.getAttribute("filePath");
+            String fileName = (String) session.getAttribute("fileName");
             if (filePath != null) {
                 // Send the data into the model to use in views
                 model.addAttribute("filePath", filePath);
+                model.addAttribute("fileName", fileName);
+                // Fetch data from the service (or directly from the repository)
+                List<Dataset> datasets = datasetService.getAllDatasets();
+                //Add the datasets to the model to be used in the view
+                model.addAttribute("datasets", datasets);
             }
             return "welcome";
         }
@@ -184,7 +201,7 @@ public class Da2Controller {
     }
 
     // Handle the file upload
-    @PostMapping("/")
+    @PostMapping("/upload")
     public String upload(@RequestParam("file")MultipartFile file, HttpSession session, RedirectAttributes redirectAttributes, Model model) {
         if (file.isEmpty()) {
             model.addAttribute("message", "Please select a file to upload.");
@@ -193,6 +210,28 @@ public class Da2Controller {
         }
 
         try {
+            // save the file into the database
+            // check if the file is a plain text file
+            if (!file.getContentType().equals("text/plain")) {
+                return "redirect:/?error=not-a-text-file";
+            }
+            // save the file into the database
+            Dataset fileDataset = new Dataset(file.getOriginalFilename(), file.getBytes());
+            // Debugging: Log the file size
+            byte[] fileData = file.getBytes(); // Get the file content as a byte array
+            System.out.println("Dataset byte array length: " + fileData.length); // Log byte array length
+            System.out.println("Dataset name: " + file.getOriginalFilename()); // Log dataset name
+            System.out.println("file size " + file.getSize() + "bytes");
+            if (file.getOriginalFilename().length() > 255) {
+                return "redirect:/?error=filename-too-long";
+            }
+            if (file.getSize() > MAX_FILE_SIZE) {
+                return "redirect:/?error=file-too-large";
+            } else {
+                datasetRepository.save(fileDataset);
+            }
+//            redirectAttributes.addFlashAttribute("message", "File uploaded successfully.");
+
             // Save the file locally
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
@@ -203,8 +242,13 @@ public class Da2Controller {
 //            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
             model.addAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
             session.setAttribute("filePath", filePath);
-        } catch (IOException e) {
+            String fileName = file.getOriginalFilename();
+            session.setAttribute("fileName", fileName);
+
+        } catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("message", "Error uploading file: " + e.getMessage());
+            return "redirect:/?error=upload-failed";
         }
         return "upload-status";
     }
@@ -235,5 +279,4 @@ public class Da2Controller {
         // Return the name of the Thymeleaf template
         return "output";
     }
-
 }

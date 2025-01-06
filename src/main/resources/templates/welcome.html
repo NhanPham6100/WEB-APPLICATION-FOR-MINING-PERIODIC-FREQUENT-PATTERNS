@@ -104,7 +104,7 @@
     <h3 style="border-bottom: 1px solid rgb(216, 215, 215); margin: 30px;">Start mining the dataset with the following steps:</h3>
     <div class="container">
         <h3>1. Upload file</h3>
-        <form method="post" enctype="multipart/form-data" th:action="@{/}" style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;">
+        <form method="post" enctype="multipart/form-data" th:action="@{/upload}" style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;">
             <input type="file" name="file">
             <button type="submit">Upload</button>
         </form>
@@ -119,6 +119,20 @@
         <div th:if="${filePath}">
             <p style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box" th:text="${filePath}"></p>
         </div>
+
+        <!-- Dataset Database -->
+        <p style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;">Your current dataset:</p>
+        <p style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;" th:if="${fileName != null}" th:text="${fileName}"></p>
+        <p style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;" th:if="${fileName == null}">File name is not available.</p>
+        <p style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;"> Uploaded Files:</p>
+        <!-- Display the dataset names in an unordered list -->
+        <ul style="margin: 0; padding: 0 0 0 50px; box-sizing: border-box;" id="fileList">
+            <!-- Iterate over the "datasets" attribute passed from the controller -->
+            <li th:each="dataset : ${datasets}">
+                <span th:text="${dataset.datasetName}"></span> <!-- Display dataset name -->
+            </li>
+        </ul>
+
     </div>
 
     <div class="container">
